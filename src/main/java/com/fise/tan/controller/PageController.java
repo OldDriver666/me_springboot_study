@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class PageController {
 
     // 从 application.properties 中读取配置，如取不到默认值为Hello Shanhy
-    @Value("${application.hell:Hello Shanhy}")
+    @Value("${application.hello:Hello Shanhy}")
     private String hello = "Hello Shanhy";
 
     /**
