@@ -1,2 +1,2 @@
 # me_springboot_study
-master=tan
+master=tandev=tan
