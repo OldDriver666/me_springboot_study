@@ -1,4 +1,4 @@
-package com.fise.tan.config;
+package com.fise.tan.controller;
 import java.util.List;
 
 import org.slf4j.Logger;
