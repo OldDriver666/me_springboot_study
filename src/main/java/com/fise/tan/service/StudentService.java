@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import com.fise.tan.entity.Student;
+import com.fise.tan.mapper.StudentMapper;
 
 /**
  * Studeng Service
@@ -20,24 +21,16 @@ import com.fise.tan.entity.Student;
 @Service
 public class StudentService {
 
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private StudentMapper studentMapper;
 
-    public List<Student> getList(){
-        String sql = "SELECT ID,NAME,SCORE_SUM,SCORE_AVG, AGE   FROM STUDENT";
-        return (List<Student>) jdbcTemplate.query(sql, new RowMapper<Student>(){
 
-            @Override
-            public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
-                Student stu = new Student();
-                stu.setId(rs.getInt("ID"));
-                stu.setAge(rs.getInt("AGE"));
-                stu.setName(rs.getString("NAME"));
-                stu.setSumScore(rs.getString("SCORE_SUM"));
-                stu.setAvgScore(rs.getString("SCORE_AVG"));
-                return stu;
-            }
-
-        });
+    public int testSave(){
+        Student stu = new Student();
+        stu.setAge(33);
+        stu.setName("测试新增");
+        return studentMapper.insert(stu);//这里调用的是基础Mapper中的insert方法
     }
+
 }
