@@ -1,4 +1,5 @@
 package com.fise.tan.service;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -14,23 +15,35 @@ import com.fise.tan.mapper.StudentMapper;
 /**
  * Studeng Service
  *
- * @author   单红宇(365384722)
- * @myblog  http://blog.csdn.net/catoop/
- * @create    2016年1月12日
+ * @author 单红宇(365384722)
+ * @myblog http://blog.csdn.net/catoop/
+ * @create 2016年1月12日
  */
 @Service
 public class StudentService {
 
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private StudentMapper studentMapper;
+	public List<Student> getList() {
+		String sql = "SELECT ID,NAME, AGE   FROM STUDENT";
+		return (List<Student>) jdbcTemplate.query(sql, new RowMapper<Student>() {
 
+			@Override
+			public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Student stu = new Student();
+				stu.setId(rs.getInt("ID"));
+				stu.setAge(rs.getInt("AGE"));
+				stu.setName(rs.getString("NAME"));
+				return stu;
+			}
 
-    public int testSave(){
-        Student stu = new Student();
-        stu.setAge(33);
-        stu.setName("测试新增");
-        return studentMapper.insert(stu);//这里调用的是基础Mapper中的insert方法
-    }
+		});
+	}
+	
+	public int add() {
+		String sql = "insert into student(id,name,age) values(4,'lileiqq',18);";
+		return jdbcTemplate.update(sql);
+	}
 
 }
