@@ -27,4 +27,23 @@
     values (#{name,jdbcType=VARCHAR},  #{age,jdbcType=INTEGER})
   </insert>
   
+  <select id="getById" resultMap="stuMap" resultType="Student">
+        SELECT *
+        FROM STUDENT
+        WHERE ID = #{id}
+    </select>
+
+    <select id="likeName" resultMap="stuMap" parameterType="string" resultType="list">
+        SELECT *
+        FROM STUDENT
+        WHERE NAME LIKE CONCAT('%',#{name},'%')
+    </select>
+
+    <select id="getNameById" resultType="string">
+        SELECT NAME
+        FROM STUDENT
+        WHERE ID = #{id}
+    </select>
+  
+  
 </mapper>

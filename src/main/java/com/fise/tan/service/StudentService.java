@@ -45,5 +45,8 @@ public class StudentService {
 		String sql = "insert into student(id,name,age) values(4,'lileiqq',18);";
 		return jdbcTemplate.update(sql);
 	}
+	
+	
+	
 
 }
