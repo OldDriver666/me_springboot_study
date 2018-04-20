@@ -10,7 +10,7 @@ import java.util.Date;
 
 import com.mysql.jdbc.PreparedStatement;
 
-public class InsertByDate {
+public class InsertByDate2 {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, ParseException {
 		final String url = "jdbc:mysql://127.0.0.1/test";
@@ -33,10 +33,10 @@ public class InsertByDate {
 		// 开始时间
 		Long begin = new Date().getTime();
 		// sql前缀
-		String prefix = "INSERT INTO imevent2 (user_id, event_key, location_x, location_y, location_from, battery, sq, event_level, param, createtime) VALUES ";
+		String prefix = "INSERT INTO imevent0 (user_id, event_key, location_x, location_y, location_from, battery, sq, event_level, param, createtime) VALUES ";
 
-		int c = 10000; // 设备数量
-
+		int c = 1500; // 设备数量
+		int count = 0;
 		try {
 			// 保存sql后缀
 			StringBuffer suffix = new StringBuffer();
@@ -49,14 +49,18 @@ public class InsertByDate {
 			// 循环日期
 			Calendar ca = Calendar.getInstance();
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date curDate = df.parse("2018-03-01 00:00:00");
-			Date endDate = df.parse("2018-03-31 00:00:00");
+			Date curDate = df.parse("2018-04-01 00:00:00");
+			Date endDate = df.parse("2018-04-31 00:00:00");
+			int flag = 0;
+			int max = 30;
+			
 			while (curDate.compareTo(endDate) <= 0) {
+				count++;
 				ca.setTime(curDate);
 				// 业务处理...
 				ca.add(ca.MINUTE, 5);
 				curDate = ca.getTime();
-				suffix = new StringBuffer();
+				
 				// 第j次提交步长
 				for (int z = 1; z <= c; z++) {
 					// 构建SQL后缀
@@ -66,14 +70,20 @@ public class InsertByDate {
 					suffix.append(df.format(curDate));
 					suffix.append("'),");
 				}
-				// 构建完整SQL
-				String sql = prefix + suffix.substring(0, suffix.length() - 1);
-				// 添加执行SQL
-				pst.addBatch(sql);
-				// 执行操作
-				pst.executeBatch();
-				// 提交事务
-				conn.commit();
+				flag ++;
+				if (flag == max) {
+					// 构建完整SQL
+					String sql = prefix + suffix.substring(0, suffix.length() - 1);
+					// 添加执行SQL
+					pst.addBatch(sql);
+					// 执行操作
+					pst.executeBatch();
+					// 提交事务
+					conn.commit();
+					flag = 0;
+					suffix = new StringBuffer();
+				}
+
 
 			}
 			pst.close();
@@ -84,7 +94,7 @@ public class InsertByDate {
 		// 结束时间
 		Long end = new Date().getTime();
 		// 耗时
-		System.out.println(c + "万条数据插入花费时间 : " + (end - begin) / 1000 + " s");
+		System.out.println(count*c/10000 + "万条数据插入花费时间 : " + (end - begin) / 1000 + " s");
 		System.out.println("插入完成");
 	}
 }
