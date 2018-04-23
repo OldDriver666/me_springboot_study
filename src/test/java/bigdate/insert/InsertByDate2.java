@@ -13,10 +13,10 @@ import com.mysql.jdbc.PreparedStatement;
 public class InsertByDate2 {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, ParseException {
-		final String url = "jdbc:mysql://127.0.0.1/test";
+		final String url = "jdbc:mysql://10.252.252.250/wtcar";
 		final String name = "com.mysql.jdbc.Driver";
 		final String user = "root";
-		final String password = "123456";
+		final String password = "fise2016";
 		Connection conn = null;
 		Class.forName(name);// 指定连接类型
 		conn = DriverManager.getConnection(url, user, password);// 获取连接
@@ -35,7 +35,7 @@ public class InsertByDate2 {
 		// sql前缀
 		String prefix = "INSERT INTO imevent0 (user_id, event_key, location_x, location_y, location_from, battery, sq, event_level, param, createtime) VALUES ";
 
-		int c = 1500; // 设备数量
+		int c = 1000; // 设备数量
 		int count = 0;
 		try {
 			// 保存sql后缀
@@ -49,10 +49,10 @@ public class InsertByDate2 {
 			// 循环日期
 			Calendar ca = Calendar.getInstance();
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date curDate = df.parse("2018-04-01 00:00:00");
-			Date endDate = df.parse("2018-04-31 00:00:00");
+			Date curDate = df.parse("2018-05-01 00:00:00");
+			Date endDate = df.parse("2018-05-31 00:00:00");
 			int flag = 0;
-			int max = 30;
+			int max = 10;
 			
 			while (curDate.compareTo(endDate) <= 0) {
 				count++;
